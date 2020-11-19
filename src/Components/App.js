@@ -1,19 +1,28 @@
 import React from 'react'
 
 import Filters from './Filters'
-import CharacterIndex from './CharacterIndex'
+import CharacterIndex from '../Containers/CharacterIndex'
+import { getAll, getByShow } from '../data/characters'
 
 export default class App extends React.Component {
   constructor() {
     super()
 
     this.state = {
-      characters: [],
-      filters: {
-        type: 'all'
-      }
+      characters: getAll(),
     }
   }
+
+  handleFilter = (show) => {
+    if (show !== 'all') {
+      this.setState({characters: getByShow(show)})
+    } else {
+      this.setState({characters: getAll()})
+    }
+
+  }
+
+
 
   render() {
     return (
@@ -24,10 +33,10 @@ export default class App extends React.Component {
         <div className="ui container">
           <div className="ui grid">
             <div className="four wide column">
-              <Filters />
+              <Filters handleFilter={this.handleFilter}/>
             </div>
             <div className="twelve wide column">
-              <CharacterIndex/>
+              <CharacterIndex characters={this.state.characters}/>
             </div>
           </div>
         </div>
