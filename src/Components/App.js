@@ -1,7 +1,10 @@
 import React from 'react'
 
 import Filters from './Filters'
+import NewCharacterForm from './NewCharacterForm'
+
 import CharacterIndex from '../Containers/CharacterIndex'
+
 import { getAll, getByShow } from '../data/characters'
 
 export default class App extends React.Component {
@@ -10,16 +13,34 @@ export default class App extends React.Component {
 
     this.state = {
       characters: getAll(),
+      totalCharacters: getAll()
     }
   }
 
-  handleFilter = (show) => {
+  handleNameFilter = (name) => {
+    if (name !== "") {
+      console.log(name)
+      const newCharacters = [...this.state.totalCharacters].filter(character => character.name.startsWith(name))
+      console.log(newCharacters)
+      this.setState({characters: newCharacters})
+    } else {
+      this.setState({characters: this.state.totalCharacters})
+    }
+
+  }
+
+  handleShowFilter = (show) => {
     if (show !== 'all') {
       this.setState({characters: getByShow(show)})
     } else {
-      this.setState({characters: getAll()})
+      this.setState({characters: this.state.totalCharacters})
     }
 
+  }
+
+  handleForm = (char) => {
+    const newList = [...this.state.totalCharacters, char]
+    this.setState({totalCharacters: newList, characters: newList})
   }
 
 
@@ -33,7 +54,10 @@ export default class App extends React.Component {
         <div className="ui container">
           <div className="ui grid">
             <div className="four wide column">
-              <Filters handleFilter={this.handleFilter}/>
+              <NewCharacterForm handleForm={this.handleForm}/>
+              <br></br>
+              <Filters handleShowFilter={this.handleShowFilter} handleNameFilter={this.handleNameFilter}/>
+              <br></br>
             </div>
             <div className="twelve wide column">
               <CharacterIndex characters={this.state.characters}/>

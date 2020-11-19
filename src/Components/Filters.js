@@ -3,25 +3,43 @@ import React from 'react'
 export default class Filters extends React.Component {
 
   state = {
-    show: "all"
+    show: "all",
+    name: ""
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleNameChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value }, 
+      () => this.props.handleNameFilter(this.state.name));
     
+  }
+
+  handleShowChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.handleFilter(this.state.show)
+    this.props.handleShowFilter(this.state.show)
   }
 
   render() {
     return (
       <form className="ui form" onClick={this.handleSubmit}>
-        <h3>Character show</h3>
         <div className="field">
-          <select name="show" id="show" onChange={this.handleChange}>
+          <br></br>
+        <h3>Filter by character name</h3>
+          <label>
+            Name
+            <input id="name" name="name" type="text"
+              onChange={ this.handleNameChange }
+              value={this.state.name}
+              />
+          </label>
+        </div>
+        <br></br>
+        <h3>Filter by character show</h3>
+        <div className="field">
+          <select name="show" id="show" onChange={this.handleShowChange}>
             <option value="all">All</option>
             <option value="DBZ">Dragon Ball Z</option>
             <option value="My Hero">My Hero</option>
