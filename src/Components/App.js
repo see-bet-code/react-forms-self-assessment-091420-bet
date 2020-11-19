@@ -20,9 +20,7 @@ export default class App extends React.Component {
 
   handleNameFilter = (name) => {
     if (name !== "") {
-      console.log(name)
       const newCharacters = [...this.state.totalCharacters].filter(character => character.name.startsWith(name))
-      console.log(newCharacters)
       this.setState({characters: newCharacters})
     } else {
       this.setState({characters: this.state.totalCharacters})
