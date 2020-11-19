@@ -2,6 +2,7 @@ import React from 'react'
 
 import Filters from './Filters'
 import NewCharacterForm from './NewCharacterForm'
+import './App.css';
 
 import CharacterIndex from '../Containers/CharacterIndex'
 
